@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: 'Kode Mono';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url("./font/Kode_Mono.woff2") format('woff2');
+}
+
+
+/*@KodeTheme {
+  --font-sans: 'Kode Mono', monospace;
+}*/
+
+* {
+    font-family: 'Kode Mono', monospace;
+}
