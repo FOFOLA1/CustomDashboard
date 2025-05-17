@@ -172,12 +172,6 @@
   .-z-50 {
     z-index: calc(50 * -1);
   }
-  .z-40 {
-    z-index: 40;
-  }
-  .z-50 {
-    z-index: 50;
-  }
   .col-1 {
     grid-column: 1;
   }
