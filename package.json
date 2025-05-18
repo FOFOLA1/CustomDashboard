@@ -11,16 +11,22 @@
   "author": "",
   "license": "ISC",
   "type": "module",
-  "description": "",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "node-fetch": "^3.3.2"
-  },
-  "devDependencies": {
+    "node-fetch": "^3.3.2",
     "tailwindcss": "^4.1.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FOFOLA1/CustomDashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FOFOLA1/CustomDashboard/issues"
+  },
+  "homepage": "https://github.com/FOFOLA1/CustomDashboard#readme",
+  "description": ""
 }
