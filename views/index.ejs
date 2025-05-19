@@ -12,18 +12,31 @@
         <img src="<%= bg_image %>" alt="background" id="bg" class="w-screen h-screen bg-center bg-cover bg-no-repeat -z-50">
     </div>-->
 
-    <div class="relative w-full h-auto -z-50">
+    <div class="relative w-full h-full -z-50">
         <img src="<%= bg_image %>" alt="background" id="bg" class="absolute w-screen h-screen object-cover -z-50">
-
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0)_40%,_rgba(0,0,0,0.7)_100%)] w-screen h-screen -z-40"></div>
     </div>
 
+    <main class="absolute top-0 left-0 h-full w-full p-8
+        grid grid-cols-[minmax(300px,1fr)_minmax(500px,2fr)_minmax(300px,1fr)] grid-rows-3 gap-12">
+        <section class="bg-violet-600 row-start-1 col-start-1"></section>
+        <section class="bg-amber-50 row-start-1 col-start-3"></section>
 
-    <h1 class="inline-block row-1 col-1">AAAA</h1>
-    <p class="inline-block col-start-2 col-end-3 row-start-1 row-end-1">1234567890</p>
+        <section class="bg-blue-400 col-start-1 row-start-3"></section>
+        <section class="bg-green-500 col-start-3 row-start-3"></section>
+
+        <div class="col-start-2 row-start-1 row-span-2">
+            <section class="text-9xl text-center m-3 text-white text-shadow-lg">12:34</section>
+            <section class="bg-amber-50 w-full h-9"></section>
+
+        </div>
+        <section class="bg-yellow-300 row-start-3 col-start-2"></section>
+        
+
+    </main>
 
 
 
-    <!--<script src="background.js"></script>-->
+    <script src="background.js"></script>
 </body>
 </html>

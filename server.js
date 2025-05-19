@@ -49,8 +49,8 @@ app.get("/", (req, res) => {
 	//res.sendFile(join(__dirname, "public", "index.html"));
 
 	let bg_img = "";
-	fetch(`${unsplash_api}/photos/random?orientation=landscape`,
-	{ 
+	/*fetch(`${unsplash_api}/photos/random?orientation=landscape`,
+	{
 		method: "GET",
 		headers: {
 			'Content-Type': 'application/json',
@@ -74,11 +74,12 @@ app.get("/", (req, res) => {
 		})
 		.then((out) => {
 			res.render('index.ejs', { bg_image: out });
-		});
+		});*/
 	
+		res.render('index.ejs', { bg_image: old_imgs[5] });
 });
 
-app.get("/api/random", (req, res) => {
+/*app.get("/api/random", (req, res) => {
 	fetch(
 		`${unsplash_api}/photos/random?orientation=landscape&client_id=${unsplash_id}`,
 		{ method: "GET" })
@@ -96,7 +97,7 @@ app.get("/api/random", (req, res) => {
 			console.log(err);
 			res.json({ url: old_imgs[Math.floor(Math.random() * old_imgs.length)] });
 		});
-});
+});*/
 
 app.listen(PORT, IP, () => {
     console.log(`Server running on http://${IP}:${PORT}`);

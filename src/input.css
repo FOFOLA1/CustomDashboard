@@ -16,3 +16,7 @@
 * {
     font-family: 'Kode Mono', monospace;
 }
+
+section {
+  @apply rounded-2xl;
+}
