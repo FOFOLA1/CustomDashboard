@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 4000;
 const IP = "127.0.0.1";
 
 app.set('view engine', 'ejs');
@@ -109,8 +109,8 @@ app.get("/api/favicon", async (req, res) => {
 
 
 
-app.listen(PORT, IP, () => {
-    console.log(`Server running on http://${IP}:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server running on ${PORT}`);
 });
 
 function save() {
