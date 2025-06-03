@@ -28,5 +28,8 @@
     "url": "https://github.com/FOFOLA1/CustomDashboard/issues"
   },
   "homepage": "https://github.com/FOFOLA1/CustomDashboard#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "tailwind-scrollbar": "^4.0.2"
+  }
 }

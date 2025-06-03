@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="/output.css">
+</head>
+<body class="m-0">
+    <!--<div class="w-screen h-screen bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_20%,rgba(0,0,0,0.7)_100%)] -z-40">
+        <img src="<%= bg_image %>" alt="background" id="bg" class="w-screen h-screen bg-center bg-cover bg-no-repeat -z-50">
+    </div>-->
+
+    <div class="relative w-full h-full -z-50">
+        <img src="<%= bg_image %>" alt="background" id="bg" class="absolute w-screen h-screen object-cover -z-50">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0)_40%,_rgba(0,0,0,0.7)_100%)] w-screen h-screen -z-40"></div>
+    </div>
+
+    <main class="absolute top-0 left-0 h-full w-full p-8
+        grid grid-cols-[minmax(300px,3fr)_minmax(500px,7fr)_minmax(300px,3fr)] grid-rows-3 gap-12">
+        <section class="bg-violet-600 row-start-1 col-start-1"></section>
+        <section class="bg-amber-50 row-start-1 col-start-3"></section>
+
+        <section class="bg-blue-400 col-start-1 row-start-3"></section>
+        <section class="bg-green-500 col-start-3 row-start-3"></section>
+
+        <div class="col-start-2 row-start-1 row-span-2 p-10">
+            <section class="text-9xl text-center m-3 text-white text-shadow-lg">12:34</section>
+            <section class="bg-amber-50 w-full h-11 mt-10"></section>
+
+        </div>
+        <section class="bg-yellow-300 row-start-3 col-start-2"></section>
+        
+
+    </main>
+
+
+
+    <script src="background.js"></script>
+</body>
+</html>
+
+<!--
+sm	40rem (640px)
+md	48rem (768px)
+lg	64rem (1024px)
+xl	80rem (1280px)
+2xl	96rem (1536px)
+
+-->

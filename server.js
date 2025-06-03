@@ -79,25 +79,35 @@ app.get("/", (req, res) => {
 		res.render('index.ejs', { bg_image: old_imgs[5] });
 });
 
-/*app.get("/api/random", (req, res) => {
-	fetch(
-		`${unsplash_api}/photos/random?orientation=landscape&client_id=${unsplash_id}`,
-		{ method: "GET" })
-		.then((response) => {
-			if (!response.ok)
-				throw new Error();
-			response.json();
-		})
-		.then((result) => {
-			res.json({ url: result.urls.regular });
-			old_imgs.push(result.urls.regular);
-			save();
-		})
-		.catch((err) => {
-			console.log(err);
-			res.json({ url: old_imgs[Math.floor(Math.random() * old_imgs.length)] });
-		});
-});*/
+
+app.get("/api/favicon", async (req, res) => {
+    const { url } = req.query;
+
+    if (!url) {
+        return res.status(400).json({ error: "Missing 'url' query parameter" });
+    }
+
+    try {
+        const response = await fetch(`https://www.google.com/s2/favicons?domain=${encodeURIComponent(url)}&sz=64`, {
+            method: "GET",
+            redirect: "follow" // ensures we follow any redirects
+        });
+
+        if (!response.ok) {
+            return res.status(500).json({ error: "Failed to fetch favicon from Google" });
+        }
+
+        // The final URL after redirects
+        const finalUrl = response.url;
+
+        res.json({ faviconUrl: finalUrl });
+    } catch (error) {
+        console.error("Error fetching favicon:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+
 
 app.listen(PORT, IP, () => {
     console.log(`Server running on http://${IP}:${PORT}`);

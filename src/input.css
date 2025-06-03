@@ -8,15 +8,89 @@
     src: url("./font/Kode_Mono.woff2") format('woff2');
 }
 
-
-/*@KodeTheme {
-  --font-sans: 'Kode Mono', monospace;
-}*/
+@theme {
+  --color-dark: #1d1b1f;
+  --color-ldark: #333237;
+}
 
 * {
     font-family: 'Kode Mono', monospace;
+    @apply select-none;
+}
+
+
+
+main {
+  @apply absolute top-0 left-0 
+  h-full w-full p-6
+  grid grid-cols-[minmax(300px,3fr)_minmax(500px,6fr)_minmax(300px,3fr)] grid-rows-1 gap-9 2xl:gap-12;
 }
 
 section {
-  @apply rounded-2xl;
+  @apply rounded-2xl text-white
 }
+
+.container {
+  @apply w-full bg-dark/65 px-7 py-5;
+}
+
+section h2 {
+  @apply text-center text-4xl pb-3
+}
+
+#todo_list li {
+  @apply pb-2 list-disc list-inside pl-2 cursor-pointer text-wrap;
+}
+
+#todo_add {
+  @apply text-xl w-full p-1 mb-2;
+}
+
+#saved_pages {
+  @apply w-full flex justify-center flex-wrap my-3 px-2;
+}
+
+#saved_pages a/*:not(#add_page)*/ {
+  @apply w-14 h-14 m-2 rounded-xl bg-dark/50 flex justify-center items-center;
+}
+
+#saved_pages a:not(#add_page) img {
+  @apply w-10 h-10 rounded-lg;
+}
+
+#add_page img {
+  @apply w-13 h-13
+}
+
+#add_page {
+  @apply w-14 h-14 m-2 rounded-xl bg-dark/50 flex justify-center items-center cursor-pointer;
+}
+
+.scrollable {
+  @apply overflow-y-scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollable::-webkit-scrollbar {
+  display: none;
+}
+
+.customRCMenu {
+  @apply hidden absolute 
+  bg-dark shadow-[2px,_2px,_6px,_rgba(0,0,0,0.2)]
+  py-2 z-50 rounded-lg;
+}
+
+.customRCMenu ul {
+  @apply list-none m-0 p-0;
+}
+
+.customRCMenu ul li {
+  @apply py-2 px-3 cursor-pointer text-white;
+}
+
+.customRCMenu ul li:hover {
+  @apply bg-ldark;
+}
+

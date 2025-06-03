@@ -3,40 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
+    <title>CustomDashboard</title>
+
     <link rel="stylesheet" href="/output.css">
+    <script src="./script/time.js"></script>
 </head>
 <body class="m-0">
     <!--<div class="w-screen h-screen bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_20%,rgba(0,0,0,0.7)_100%)] -z-40">
         <img src="<%= bg_image %>" alt="background" id="bg" class="w-screen h-screen bg-center bg-cover bg-no-repeat -z-50">
     </div>-->
 
+    <div id="customRCMenu" class="customRCMenu">
+        <ul>
+            <li onclick="alert('Action 1')">Action 1</li>
+            <li onclick="alert('Action 2')">Action 2</li>
+            <li onclick="alert('Action 3')">Action 3</li>
+        </ul>
+    </div>
+
+    <div id="todoItemRCMenu" class="customRCMenu">
+        <ul>
+            <li>Edit</li>
+            <li>Delete</li>
+        </ul>
+    </div>
+
+    <div id="favPageRCMenu" class="customRCMenu">
+        <ul>
+            <li>Edit</li>
+            <li>Delete</li>
+        </ul>
+    </div>
+
+    <div id="cursorHint" class="hidden absolute bg-dark shadow-[2px,_2px,_6px,_rgba(0,0,0,0.2)] py-1 px-2 z-40 text-white rounded-sm text-sm">
+        <p id="cursorHintText"></p>
+    </div>
+
+
+
+    <div id="overlay" class="hidden absolute left-0 right-0 w-full h-full z-50 flex justify-center items-center">
+
+        <!-- <div id="add_FavPage_overlay" class="relative w-1/3 h-1/3 bg-dark rounded-2xl border-ldark border-6
+        grid grid-cols- grid-rows-3">
+            <img id="exit_overlay" src="./img/btn_remove.png" class="absolute top-2 right-2 cursor-pointer w-6 h-6">
+
+            <input type="text" class="row-start-1 col-start-2">
+            <input type="text" class="row-start-2 col-start-2">
+            <button class="bg-white text-2xl text-black row-start-3 col-start-1 col-end-3 w-1/3 h-fit p-1.5 self-center mx-auto rounded-2xl">Create</button>
+        </div> -->
+
+        <div id="add_FavPage_overlay" class="bg-dark text-white w-[500px] h-[250px] rounded-2xl border-ldark border-5 flex flex-col justify-center items-center relative">
+            <img id="exit_FavPage_overlay" src="./img/btn_remove.png" class="absolute top-3 right-3 cursor-pointer w-6 h-6">
+            <div class="w-4/5 h-full py-12">
+              <div class="mb-6 flex items-center">
+                <p class="text-xl mr-4 w-20">Name:</p>
+                <input placeholder="Example" class="text-xl flex-1 border-b border-gray-500 focus:border-white bg-transparent text-white outline-none" type="text" id="add_FavPage_name">
+              </div>
+              <div class="mb-10 flex items-center">
+                <p class="text-xl mr-4 w-20" for="url">Url:</p>
+                <input placeholder="https://example.com" class="text-xl flex-1 border-b border-gray-500 focus:border-white bg-transparent text-white outline-none" type="url" id="add_FavPage_url">
+              </div>
+              <div class="flex justify-center">
+                <button id="add_FavPage_create" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">
+                  Create
+                </button>
+              </div>
+            </div>
+          </div>
+
+        <div class="absolute inset-0 bg-dark/75 w-screen h-screen -z-40"></div>
+    </div>
+
+
     <div class="relative w-full h-full -z-50">
         <img src="<%= bg_image %>" alt="background" id="bg" class="absolute w-screen h-screen object-cover -z-50">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0)_40%,_rgba(0,0,0,0.7)_100%)] w-screen h-screen -z-40"></div>
     </div>
 
-    <main class="absolute top-0 left-0 h-full w-full p-8
-        grid grid-cols-[minmax(300px,3fr)_minmax(500px,7fr)_minmax(300px,3fr)] grid-rows-3 gap-12">
-        <section class="bg-violet-600 row-start-1 col-start-1"></section>
-        <section class="bg-amber-50 row-start-1 col-start-3"></section>
+    <main>
 
-        <section class="bg-blue-400 col-start-1 row-start-3"></section>
-        <section class="bg-green-500 col-start-3 row-start-3"></section>
-
-        <div class="col-start-2 row-start-1 row-span-2">
-            <section class="text-9xl text-center m-3 text-white text-shadow-lg">12:34</section>
-            <section class="bg-amber-50 w-full h-9"></section>
-
+        <div class="col-start-1 flex flex-col justify-between">
+            <section class="container h-75 overflow-hidden">
+                <p id="date" class="h-12 text-5xl uppercase mb-3"></p>
+                <p id="daily" class="text-lg">daily</p>
+            </section>
+            <section id="weather" class="container max-h-[440px]">
+                <h2>Weather</h2>
+                <div class="">
+                </div>
+            </section>
         </div>
-        <section class="bg-yellow-300 row-start-3 col-start-2"></section>
+        <div class="col-start-3 flex flex-col justify-between">
+            <section class="h-75 container"></section>
+            <section id="todo" class="container max-h-[440px]">
+                <h2>TODO</h2>
+                <input id="todo_add" type="text" placeholder="Add task">
+                <ul id="todo_list" class="scrollable text-xl min-h-[150px] max-h-[300px]">
+                </ul>
+            </section>
+        </div>
+
+
+        <div class="col-start-2 row-start-1 flex flex-col justify-between">
+            <div>
+                <section id="time" class="text-8xl 2xl:text-9xl text-center 2xl:m-3 text-white text-shadow-lg my-3">  :  </section>
+                <section class="h-11 flex justify-between items-center w-full bg-dark">
+                    <input id="search_bar" type="text" placeholder="Search..." class="w-full ml-4 text-lg focus:outline-none text-white" tabindex="1" autocomplete="off">
+                    <img src="./img/brave_logo.webp" alt="" class="w-7 h-7 mr-3 grayscale-50">
+                </section>
+                <section class="h-11 flex justify-between items-center w-full bg-dark my-2">
+                    <input id="ask_bar" type="text" placeholder="Ask ChatGPT..." class="w-full ml-4 text-lg focus:outline-none text-white" tabindex="1" autocomplete="off">
+                    <img src="./img/chatgpt_logo.png" alt="" class="w-7 h-7 mr-3 opacity-75">
+                </section>
+                <section id="saved_pages">
+                    <div id="add_page"><img src="img/add_btn_white.png" alt="idkkk"></div>
+                </section>
+            </div>
+            
+            <section class="h-auto text-center text-xl container">
+                <h2>Fun fact</h2>
+                Culpa in cillum reprehenderit sint qui consectetur. Aute non nulla est veniam proident fugiat fugiat mollit quis deserunt pariatur ea ut ea. Laborum irure nisi sit et. Pariatur tempor commodo incididunt ipsum aute dolore. Officia officia consequat veniam occaecat qui qui magna esse nisi duis tempor elit duis dolor. Culpa sit sit ullamco consectetur fugiat amet consequat ipsum dolore enim.
+            </section>
+        
+        </div>
         
 
     </main>
 
 
+    <script src="./script/overlay_util.js"></script>
+    <script src="./script/bars.js"></script>
+    <script src="./script/contextMenu.js"></script>
+    <script src="./script/todo.js"></script>
+    <script src="./script/fav_pages.js"></script>
 
-    <script src="background.js"></script>
 </body>
 </html>
+
+<!--
+sm	40rem (640px)
+md	48rem (768px)
+lg	64rem (1024px)
+xl	80rem (1280px)
+2xl	96rem (1536px)
+
+-->
