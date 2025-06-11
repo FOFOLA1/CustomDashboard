@@ -65,7 +65,7 @@ renderTodos()
 
 
 function todoAdd(event) {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && todo_add.value != "") {
         todos.push(todo_add.value);
         newTodo(todo_add.value);
         todo_add.value = ""

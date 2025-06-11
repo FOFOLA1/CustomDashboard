@@ -52,24 +52,47 @@
             <button class="bg-white text-2xl text-black row-start-3 col-start-1 col-end-3 w-1/3 h-fit p-1.5 self-center mx-auto rounded-2xl">Create</button>
         </div> -->
 
-        <div id="add_FavPage_overlay" class="bg-dark text-white w-[500px] h-[250px] rounded-2xl border-ldark border-5 flex flex-col justify-center items-center relative">
+        <div id="add_FavPage_overlay" class="bg-dark text-white w-[500px] h-[250px] rounded-2xl border-ldark border-5 flex flex-col justify-center items-center relative hidden">
             <img id="exit_FavPage_overlay" src="./img/btn_remove.png" class="absolute top-3 right-3 cursor-pointer w-6 h-6">
             <div class="w-4/5 h-full py-12">
-              <div class="mb-6 flex items-center">
-                <p class="text-xl mr-4 w-20">Name:</p>
-                <input placeholder="Example" class="text-xl flex-1 border-b border-gray-500 focus:border-white bg-transparent text-white outline-none" type="text" id="add_FavPage_name">
-              </div>
-              <div class="mb-10 flex items-center">
-                <p class="text-xl mr-4 w-20" for="url">Url:</p>
-                <input placeholder="https://example.com" class="text-xl flex-1 border-b border-gray-500 focus:border-white bg-transparent text-white outline-none" type="url" id="add_FavPage_url">
-              </div>
-              <div class="flex justify-center">
-                <button id="add_FavPage_create" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">
-                  Create
-                </button>
-              </div>
+                <div class="mb-6 flex items-center">
+                    <p class="text-xl mr-4 w-20">Name:</p>
+                    <input placeholder="Example" class="text-xl flex-1 border-b border-gray-500 focus:border-white bg-transparent text-white outline-none" type="text" id="add_FavPage_name">
+                </div>
+                <div class="mb-10 flex items-center">
+                    <p class="text-xl mr-4 w-20" for="url">Url:</p>
+                    <input placeholder="https://example.com" class="text-xl flex-1 border-b border-gray-500 focus:border-white bg-transparent text-white outline-none" type="url" id="add_FavPage_url">
+                </div>
+                <div class="flex justify-center">
+                    <button id="add_FavPage_create" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">
+                        Create
+                    </button>
+                </div>
             </div>
-          </div>
+        </div>
+
+        <div id="weatherConfig_overlay" class="bg-dark text-white w-[500px] h-[220px] rounded-2xl border-ldark border-5 flex flex-col justify-center items-center relative hidden">
+            <img id="exit_weatherConfig_overlay" src="./img/btn_remove.png" class="absolute top-3 right-3 cursor-pointer w-6 h-6">
+            <div class="w-4/5 h-full py-12">
+                <div class="mb-4 flex items-center">
+                    <p class="text-xl mr-4 w-20">City:</p>
+                    <input placeholder="City" class="text-xl flex-1 border-b border-gray-500 focus:border-white bg-transparent text-white outline-none" type="text" id="city_weatherConfig_overlay">
+                </div>
+                <!--<label class="inline-flex items-center cursor-pointer">
+                    <input type="checkbox" value="" class="sr-only peer" />
+                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Toggle me</span>
+                </label>-->
+                <div class="flex justify-center">
+                    <p id="weatherConfig_error" class="text-xl text-red-700 mb-3"></p>
+                </div>
+                <div class="flex justify-center">
+                    <button id="apply_weatherConfig_overlay" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <div class="absolute inset-0 bg-dark/75 w-screen h-screen -z-40"></div>
     </div>
@@ -83,13 +106,59 @@
     <main>
 
         <div class="col-start-1 flex flex-col justify-between">
-            <section class="container h-75 overflow-hidden">
-                <p id="date" class="h-12 text-5xl uppercase mb-3"></p>
-                <p id="daily" class="text-lg">daily</p>
+            <section class="container overflow-hidden">
+                <p id="date" class="h-12 text-5xl uppercase mb-4"></p>
+                <div class="scrollable max-h-60 overflow-y-auto mb-1">
+                    <p id="daily" class="text-lg">"<%= daily_quote %>"</p>
+                    <p class="mt-2 text-xl text-right mr-2">- <%= daily_author %></p>
+                </div>
+                
             </section>
-            <section id="weather" class="container max-h-[440px]">
+            <section class="container relative group">
+                
                 <h2>Weather</h2>
-                <div class="">
+                
+                <div id="weather_setupwarn" class="flex justify-between items-center flex-col my-20 gap-2 hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24">
+                        <path fill="#fff" d="M11.001 10h2v5h-2zM11 16h2v2h-2z" />
+                        <path fill="#fff" d="M13.768 4.2C13.42 3.545 12.742 3.138 12 3.138s-1.42.407-1.768 1.063L2.894 18.064a1.99 1.99 0 0 0 .054 1.968A1.98 1.98 0 0 0 4.661 21h14.678c.708 0 1.349-.362 1.714-.968a1.99 1.99 0 0 0 .054-1.968zM4.661 19L12 5.137L19.344 19z" />
+                    </svg>
+                    <h3 class="text-xl">Setup needed</h3>
+                    <button id="weatherSetup" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">Setup</button>
+                </div>
+                <div id="weather" class="hidden">
+                    <div class="flex justify-between mt-2">
+                        <h3 id="weather_temp" class="text-7xl 2xl:text-8xl"></h3>
+                        <img id="weather_icon" class="w-40 h-40 -mt-10 -mr-5">
+                    </div>
+                    <div class="flex justify-between text-xl 2xl:text-2xl -mt-2">
+                        <h4 id="weather_minmax"></h4>
+                        <h4 id="weather_humidity"></h4>
+                    </div>
+                    <div id="weatherscroll" class="scrollable overflow-y-auto w-full h-65 mt-5">
+                        <div id="weather_forecast">
+                        </div>
+                    </div>
+    
+                    <div id="weatherReload" alt="reload weather forecast" class="absolute right-2 top-2 w-9 h-9 cursor-pointer hidden group-hover:block hover:bg-ldark rounded-xl p-2">
+                        <svg id="weatherSpinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hidden">
+                            <g stroke="currentColor" stroke-width="1">
+                                <circle cx="12" cy="12" r="9.5" fill="none" stroke-linecap="round" stroke-width="3">
+                                    <animate attributeName="stroke-dasharray" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0 150;42 150;42 150;42 150" />
+                                    <animate attributeName="stroke-dashoffset" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0;-16;-59;-59" />
+                                </circle>
+                                <animateTransform attributeName="transform" dur="2s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+                            </g>
+                        </svg>
+                        <svg id="weatherReloadImg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+                            <path fill="none" stroke="#fff" stroke-linecap="round" d="M10 4c-.8-1.1-2-2.5-4.1-2.5c-2.5 0-4.4 2-4.4 4.5s2 4.5 4.4 4.5c1.3 0 2.5-.6 3.3-1.5m1.3-7.5V4c0 .3-.2.5-.5.5H7.5" stroke-width="1.2" />
+                        </svg>
+                    </div>
+                    <div id="weatherSettings" alt="settings" class="absolute left-2 top-2 w-9 h-9 cursor-pointer hidden group-hover:block hover:bg-ldark rounded-xl p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M12.012 2.25c.734.008 1.465.093 2.182.253a.75.75 0 0 1 .582.649l.17 1.527a1.384 1.384 0 0 0 1.927 1.116l1.4-.615a.75.75 0 0 1 .85.174a9.8 9.8 0 0 1 2.205 3.792a.75.75 0 0 1-.272.825l-1.241.916a1.38 1.38 0 0 0 0 2.226l1.243.915a.75.75 0 0 1 .272.826a9.8 9.8 0 0 1-2.204 3.792a.75.75 0 0 1-.849.175l-1.406-.617a1.38 1.38 0 0 0-1.926 1.114l-.17 1.526a.75.75 0 0 1-.571.647a9.5 9.5 0 0 1-4.406 0a.75.75 0 0 1-.572-.647l-.169-1.524a1.382 1.382 0 0 0-1.925-1.11l-1.406.616a.75.75 0 0 1-.85-.175a9.8 9.8 0 0 1-2.203-3.796a.75.75 0 0 1 .272-.826l1.243-.916a1.38 1.38 0 0 0 0-2.226l-1.243-.914a.75.75 0 0 1-.272-.826a9.8 9.8 0 0 1 2.205-3.792a.75.75 0 0 1 .85-.174l1.4.615a1.387 1.387 0 0 0 1.93-1.118l.17-1.526a.75.75 0 0 1 .583-.65q1.074-.238 2.201-.252m0 1.5a9 9 0 0 0-1.354.117l-.11.977A2.886 2.886 0 0 1 6.526 7.17l-.899-.394A8.3 8.3 0 0 0 4.28 9.092l.797.587a2.88 2.88 0 0 1 .001 4.643l-.799.588c.32.842.776 1.626 1.348 2.322l.905-.397a2.882 2.882 0 0 1 4.017 2.318l.109.984c.89.15 1.799.15 2.688 0l.11-.984a2.88 2.88 0 0 1 4.018-2.322l.904.396a8.3 8.3 0 0 0 1.348-2.318l-.798-.588a2.88 2.88 0 0 1-.001-4.643l.797-.587a8.3 8.3 0 0 0-1.348-2.317l-.897.393a2.884 2.884 0 0 1-4.023-2.324l-.109-.976a9 9 0 0 0-1.334-.117M12 8.25a3.75 3.75 0 1 1 0 7.5a3.75 3.75 0 0 1 0-7.5m0 1.5a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5" />
+                        </svg>
+                    </div>
                 </div>
             </section>
         </div>
@@ -98,7 +167,7 @@
             <section id="todo" class="container max-h-[440px]">
                 <h2>TODO</h2>
                 <input id="todo_add" type="text" placeholder="Add task">
-                <ul id="todo_list" class="scrollable text-xl min-h-[150px] max-h-[300px]">
+                <ul id="todo_list" class="scrollable overflow-y-auto text-xl min-h-[150px] max-h-[300px]">
                 </ul>
             </section>
         </div>
@@ -120,9 +189,27 @@
                 </section>
             </div>
             
-            <section class="h-auto text-center text-xl container">
-                <h2>Fun fact</h2>
-                Culpa in cillum reprehenderit sint qui consectetur. Aute non nulla est veniam proident fugiat fugiat mollit quis deserunt pariatur ea ut ea. Laborum irure nisi sit et. Pariatur tempor commodo incididunt ipsum aute dolore. Officia officia consequat veniam occaecat qui qui magna esse nisi duis tempor elit duis dolor. Culpa sit sit ullamco consectetur fugiat amet consequat ipsum dolore enim.
+            <section class="h-auto min-h-40 min-w-60 text-center text-xl container relative group max-h-96">
+                <h2>Random joke</h2>
+                <div class="scrollable max-h-60 overflow-y-auto mb-1">
+                    <p id="jokeSetup" class="pb-2"><%= joke_setup %></p>
+                    <p id="jokePunch"><%= joke_punch %></p>
+                </div>
+                
+                <div id="jokeReload" alt="get another joke" class="absolute right-2 top-2 w-9 h-9 cursor-pointer hidden group-hover:block hover:bg-ldark rounded-xl p-2">
+                    <svg id="jokeSpinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hidden">
+                        <g stroke="currentColor" stroke-width="1">
+                            <circle cx="12" cy="12" r="9.5" fill="none" stroke-linecap="round" stroke-width="3">
+                                <animate attributeName="stroke-dasharray" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0 150;42 150;42 150;42 150" />
+                                <animate attributeName="stroke-dashoffset" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0;-16;-59;-59" />
+                            </circle>
+                            <animateTransform attributeName="transform" dur="2s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+                        </g>
+                    </svg>
+                    <svg id="jokeReloadImg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+                        <path fill="none" stroke="#fff" stroke-linecap="round" d="M10 4c-.8-1.1-2-2.5-4.1-2.5c-2.5 0-4.4 2-4.4 4.5s2 4.5 4.4 4.5c1.3 0 2.5-.6 3.3-1.5m1.3-7.5V4c0 .3-.2.5-.5.5H7.5" stroke-width="1.2" />
+                    </svg>
+                </div>
             </section>
         
         </div>
@@ -136,6 +223,10 @@
     <script src="./script/contextMenu.js"></script>
     <script src="./script/todo.js"></script>
     <script src="./script/fav_pages.js"></script>
+    <script src="./script/joke.js"></script>
+    <script src="./script/weather.js"></script>
+    <script src="./script/img_hint.js"></script>
+
 
 </body>
 </html>

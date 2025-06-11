@@ -54,3 +54,10 @@ https://api.api-ninjas.com/v1/facts **api key, stredne dlouhy, fact only**
 
 
 https://newsdata.io/api/1/news
+
+
+
+
+ZenQuotes – Daily Quote API https://zenquotes.io/api/today
+
+ZenQuotes – On This Day API https://today.zenquotes.io/api/[month]/[day]

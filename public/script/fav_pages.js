@@ -5,16 +5,12 @@ const exit_FavPage_overlay = document.getElementById("exit_FavPage_overlay");
 const add_FavPage_name = document.getElementById("add_FavPage_name");
 const add_FavPage_url = document.getElementById("add_FavPage_url");
 const add_FavPage_create = document.getElementById("add_FavPage_create");
-const cursorHint = document.getElementById("cursorHint");
-const cursorHintText = document.getElementById("cursorHintText");
 const favPageRCMenu =  document.getElementById("favPageRCMenu");
 const favPageRCMenuItems = favPageRCMenu.querySelectorAll('li');
 const favPageRCMenuEdit = favPageRCMenuItems[0];
 const favPageRCMenuDelete = favPageRCMenuItems[1];
 let selectedFavPage = null;
-let cursorHintTimeout;
-let coordX = 0;
-let coordY = 0;
+
 
 let page_list = JSON.parse(localStorage.getItem('favPages')) || [];
 
@@ -24,10 +20,7 @@ renderFavPages();
 
 
 
-document.addEventListener("mousemove", (event) => {
-    coordX = event.clientX;
-    coordY = event.clientY;
-});
+
 
 add_page.addEventListener("click", () => showOverlay(add_FavPage_overlay));
 
@@ -58,8 +51,6 @@ function newFavPage(page) {
     img.src = page.icon_link;
     img.alt = page.name;
     a.appendChild(img);
-    img.addEventListener("mouseover", FavPageMouseover);
-    img.addEventListener("mouseleave", FavPageMouseleave);
     a.addEventListener("contextmenu", (e) => {
         selectedFavPage = e.target
         renderRCMenu(e, favPageRCMenu);
@@ -84,36 +75,6 @@ function AddFavPageCreate() {
     hideOverlay();
     add_FavPage_name.value = "";
     add_FavPage_url.value = "";
-}
-
-function FavPageMouseover(event) {
-    timeoutId = setTimeout(showHint, 500, event.target.alt);
-}
-
-function FavPageMouseleave(event) {
-    clearTimeout(cursorHintTimeout);
-    cursorHintText.textContent = "";
-    cursorHint.style.display = 'none';
-}
-
-function showHint(text) {
-    cursorHint.style.display = 'block';
-    cursorHintText.textContent = text;
-    const hintWidth = cursorHint.offsetWidth;
-    const hintHeight = cursorHint.offsetHeight;
-
-    let left = coordX + 20;
-    let top = coordY + 20;
-
-    if (left + hintWidth + 10 > window.innerWidth) {
-        left = window.innerWidth - hintWidth - 10;
-    }
-
-    if (top + hintHeight + 10 > window.innerHeight) {
-        top = window.innerHeight - hintHeight - 10;
-    }
-    cursorHint.style.left = left + 'px';
-    cursorHint.style.top = top + 'px';
 }
 
 function FavPageEdit() {

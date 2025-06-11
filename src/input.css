@@ -18,7 +18,7 @@
     @apply select-none;
 }
 
-
+img{white-space:pre} /* Line break in img alt */
 
 main {
   @apply absolute top-0 left-0 
@@ -67,7 +67,6 @@ section h2 {
 }
 
 .scrollable {
-  @apply overflow-y-scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -94,3 +93,26 @@ section h2 {
   @apply bg-ldark;
 }
 
+#weather_forecast {
+  @apply flex flex-row flex-nowrap w-fit;
+}
+
+#weather_forecast div {
+  @apply w-34 h-max flex flex-col justify-center items-center text-center gap-2 p-2 shadow-[3px_3px_8px_0_rgba(255,255,255,0.2)] my-2 mx-1 rounded-2xl;
+}
+
+#weather_forecast div h3 {
+  @apply text-2xl;
+}
+
+#weather_forecast div h4 {
+  @apply text-xl text-nowrap mt-1;
+}
+
+#weather_forecast div h4:first-of-type {
+  @apply -mt-5;
+}
+
+#weather_forecast div img {
+  @apply w-26 h-26 -mt-5;
+}
