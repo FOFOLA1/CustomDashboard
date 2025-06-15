@@ -24,7 +24,7 @@ const deleteItem = todoItemRCMenuItems[1];
 todo_add.addEventListener("keyup", todoAdd);
 editItem.addEventListener('click', function() {
     if (currentTodoItem) {
-    
+        editTodo(currentTodoItem); // Call editTodo with the stored item
     }
     resetRCMenu();
 });
@@ -45,16 +45,6 @@ renderTodos()
 // ask_bar.addEventListener('contextmenu', function (e) {
 //     renderRCMenu(e, customRCMenu);
 // });
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -101,13 +91,53 @@ function todoRclick(e) {
     renderRCMenu(e, todoItemRCMenu);
 }
 
+function editTodo(itemToEdit) {
+    const originalText = itemToEdit.innerHTML;
+    const input = document.createElement('input');
 
+    input.type = 'text';
+    input.value = originalText;
+    input.id = "todoEdit";
 
+    itemToEdit.parentNode.replaceChild(input, itemToEdit);
 
+    input.focus();
 
+    input.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            saveEdit(input, originalText);
+        }
+    });
 
+}
 
+function saveEdit(inputElement, originalText) {
+    const newText = inputElement.value.trim();
 
+    const index = todos.indexOf(originalText);
+
+    if (newText !== "" && index !== -1) {
+        todos[index] = newText;
+        localStorage.setItem("todoList", todos);
+
+        const newLi = document.createElement('li');
+        newLi.innerHTML = newText;
+        newLi.addEventListener("contextmenu", todoRclick);
+        newLi.addEventListener("dblclick", function(e) {
+            todoDel(e.target);
+        });
+
+        inputElement.parentNode.replaceChild(newLi, inputElement);
+    } else {
+        const originalLi = document.createElement('li');
+        originalLi.innerHTML = originalText;
+        originalLi.addEventListener("contextmenu", todoRclick);
+        originalLi.addEventListener("dblclick", function(e) {
+            todoDel(e.target);
+        });
+        inputElement.parentNode.replaceChild(originalLi, inputElement);
+    }
+}
 
 
 /*let bg = document.getElementById("body");

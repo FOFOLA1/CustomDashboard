@@ -86,7 +86,7 @@ function setupWeather() {
 function ApplyConfig() {
     let city = city_weatherConfig_overlay.value;
     if (city == "") return;
-    fetch(`/api/getCity?city=${city}`,
+    fetch(`/api/getCity?city=${encodeURIComponent(city)}`,
         {method: "GET"}
     ).then((response) => {
         console.log(response);

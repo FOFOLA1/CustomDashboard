@@ -116,3 +116,7 @@ section h2 {
 #weather_forecast div img {
   @apply w-26 h-26 -mt-5;
 }
+
+#todoEdit {
+  @apply text-xl w-full p-1 mb-2 bg-transparent text-white outline-none border-b border-gray-500 focus:border-white;
+}

@@ -11,27 +11,20 @@ document.addEventListener("mousemove", (event) => {
     coordY = event.clientY;
 });
 
-document.body.addEventListener('mouseover', function(event) {
-    if (event.target.tagName.toLowerCase() === 'img') {
-        hintMouseover(event);
+document.body.addEventListener('mouseover', (event) => {
+    if (event.target.tagName.toLowerCase() == 'img') {
+        timeoutId = setTimeout(showHint, 500, event.target.alt);
     }
 });
 
-document.body.addEventListener('mouseout', function(event) {
-    if (event.target.tagName.toLowerCase() === 'img') {
-        hintMouseleave(event);
-    }
+document.body.addEventListener('mousemove', (event) => {
+    hintMouseleave(event);
 });
 
 
 
 
 
-
-
-function hintMouseover(event) {
-    timeoutId = setTimeout(showHint, 500, event.target.alt);
-}
 
 function hintMouseleave(event) {
     clearTimeout(cursorHintTimeout);
@@ -40,8 +33,9 @@ function hintMouseleave(event) {
 }
 
 function showHint(text) {
-    cursorHint.style.display = 'block';
+    if (text == "" || text == null) return;
     cursorHintText.textContent = text;
+    cursorHint.style.display = 'block';
     const hintWidth = cursorHint.offsetWidth;
     const hintHeight = cursorHint.offsetHeight;
 

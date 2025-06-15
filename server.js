@@ -13,8 +13,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const IP = "127.0.0.1";
+const PORT = process.env.PORT || 3000; // Podmínka kvůli renderer hostingu
+const IP = (PORT == 3000) ? "127.0.0.1" : "0.0.0.0";
 
 const privateKey = readFileSync('server.key', 'utf8');
 const certificate = readFileSync('server.cert', 'utf8');
@@ -54,22 +54,26 @@ let _dailyQuote = {
 	day: null
 };
 
-const apiverve_key = process.env.APIVERVE_KEY;
+const apiverve_key = process.env.APIVERVE_KEY2;
 let _joke = {setup: null, punchline: null};
 
 const openweather_key = process.env.OPENWEATHER_KEY;
+
+const newsdata_key = process.env.NEWSDATA_KEY;
+let newsData = [];
+let newsTime;
 
 // Fallback: return index.html for root
 app.get("/", (req, res) => {
 	//res.sendFile(join(__dirname, "public", "index.html"));
 
 	let bg_img = "";
-	Promise.all([fetchBG(), fetchDaily(), getJoke()])
-		.then(([bg_data, daily_data, joke_data]) => {
+	Promise.all([fetchBG(), fetchDaily(), getNews()])
+		.then(([bg_data, daily_data, news_data]) => {
 			const pageData = {
 				bg_image: bg_data,
 				daily_quote: daily_data.q, daily_author: daily_data.a,
-				joke_setup: joke_data.setup, joke_punch: joke_data.punchline
+				news_title: news_data.title, news_link: news_data.link, news_description: news_data.description
 			};
 
 			res.render('index.ejs', pageData);
@@ -94,7 +98,7 @@ app.get("/api/favicon", async (req, res) => {
         });
 
         if (!response.ok) {
-            return res.status(500).json({ error: "Failed to fetch favicon from Google" });
+            return res.status(500).json({ error: `Failed to fetch favicon from Google:\n${response}` });
         }
 
         // The final URL after redirects
@@ -146,6 +150,16 @@ app.get("/api/getWeather", async (req, res) => {
 	});
 });
 
+app.get("/api/getNews", async (req, res) => {
+	try{
+		const data = await getNews()
+		res.json({title: data.title, link: data.link, description: data.description});
+	} catch (error) {
+		console.error("Error fetching news:", error);
+        res.status(500).json({ error: "Internal server error" });
+	}
+});
+
 
 const httpsServer = https.createServer(credentials, app);
 httpsServer.listen(PORT, IP, () => {
@@ -158,7 +172,7 @@ function save() {
 
 
 async function fetchBG() {
-	return old_imgs[5];
+	//return old_imgs[5];
 	return fetch(`https://api.unsplash.com/photos/random?orientation=landscape`,
 		{
 			method: "GET",
@@ -168,9 +182,9 @@ async function fetchBG() {
 				'Authorization': `Client-ID ${unsplash_id}`
 			}
 		}
-	).then((response) => {
-		if (!response.ok)
-			throw new Error("Response from UnsplashAPI not ok");
+	).then(async (response) => {
+		if (!response.ok) 
+			throw new Error(`Response from Unsplash not ok:\n${await response.json()}`);
 		return response.json();
 	})
 	.then((result) => {
@@ -193,9 +207,9 @@ async function fetchDaily() {
 				'Content-Type': 'application/json'
 			}
 		}
-	).then((response) => {
-		if (!response.ok)
-			throw new Error("Response from ViewbitsAPI not ok");
+	).then(async (response) => {
+		if (!response.ok) 
+			throw new Error(`Response from Viewbits not ok:\n${await response.json()}`);
 		return response.json();
 	})
 	.then((result) => {
@@ -211,6 +225,9 @@ async function fetchDaily() {
 }
 
 async function getJoke() {
+	/*_joke.setup = "setup";
+	_joke.punchline = "punchline";
+	return _joke;*/
 	return fetch(`https://api.apiverve.com/v1/randomjoke`,
 		{
 			method: "GET",
@@ -219,9 +236,9 @@ async function getJoke() {
 				'x-api-key': apiverve_key
 			}
 		}
-	).then((response) => {
-		if (!response.ok)
-			throw new Error("Response from Apiverve not ok");
+	).then(async (response) => {
+		if (!response.ok) 
+			throw new Error(`Response from Apiverve not ok:\n${await response.json()}`);
 		return response.json();
 	})
 	.then((result) => {
@@ -236,7 +253,6 @@ async function getJoke() {
 }
 
 async function getCity(city) {
-	console.log(city);
 	return fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${openweather_key}`,
 		{
 			method: "GET",
@@ -244,9 +260,9 @@ async function getCity(city) {
 				'Content-Type': 'application/json'
 			}
 		}
-	).then((response) => {
-		if (!response.ok)
-			throw new Error("Response from OpenWeather not ok");
+	).then(async (response) => {
+		if (!response.ok) 
+			throw new Error(`Response from Openweathermap not ok:\n${await response.json()}`);
 		return response.json();
 	}).then((result) => {
 		let lat = result[0].lat;
@@ -267,9 +283,9 @@ async function fetchCurrentWeather(lat, lon) {
 				'Content-Type': 'application/json'
 			}
 		}
-	).then((response) => {
+	).then(async (response) => {
 		if (!response.ok)
-			throw new Error("Response from OpenWeather not ok");
+			throw new Error(`Response from OpenWeather not ok:\n${await response.json()}`);
 		return response.json();
 	}).then((data) => {
 		return {weather: data.weather, main: data.main};
@@ -288,12 +304,39 @@ async function fetchHourlyWeather(lat, lon) {
 				'Content-Type': 'application/json'
 			}
 		}
-	).then((response) => {
-		if (!response.ok)
-			throw new Error("Response from OpenWeather not ok");
+	).then(async (response) => {
+		if (!response.ok) 
+			throw new Error(`Response from OpenWeather not ok:\n${await response.json()}`);
 		return response.json();
 	}).then((data) => {
 		return data.list;
+	})
+	.catch((err) => {
+		console.log(err);
+		return;
+	});
+}
+
+async function getNews() {
+	//return {title: "Title", description: "Description", link: "Link"};
+	let now = new Date();
+	if (newsData.length != 0 && newsTime > now) return newsData.pop();
+	return fetch(` https://newsdata.io/api/1/latest?apikey=${newsdata_key}&size=10&language=en`,
+		{
+			method: "GET",
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}
+	).then(async (response) => {
+		if (!response.ok) 
+			throw new Error(`Response from Newsdata not ok:\n${await response.json()}`);
+		return response.json();
+	}).then((data) => {
+		newsData = data.results;
+		let now = new Date();
+		newsTime = new Date(now.getTime() + 86400000)
+		return newsData.pop();
 	})
 	.catch((err) => {
 		console.log(err);

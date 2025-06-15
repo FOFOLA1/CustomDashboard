@@ -13,13 +13,6 @@
         <img src="<%= bg_image %>" alt="background" id="bg" class="w-screen h-screen bg-center bg-cover bg-no-repeat -z-50">
     </div>-->
 
-    <div id="customRCMenu" class="customRCMenu">
-        <ul>
-            <li onclick="alert('Action 1')">Action 1</li>
-            <li onclick="alert('Action 2')">Action 2</li>
-            <li onclick="alert('Action 3')">Action 3</li>
-        </ul>
-    </div>
 
     <div id="todoItemRCMenu" class="customRCMenu">
         <ul>
@@ -64,9 +57,7 @@
                     <input placeholder="https://example.com" class="text-xl flex-1 border-b border-gray-500 focus:border-white bg-transparent text-white outline-none" type="url" id="add_FavPage_url">
                 </div>
                 <div class="flex justify-center">
-                    <button id="add_FavPage_create" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">
-                        Create
-                    </button>
+                    <button id="add_FavPage_create" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">Create</button>
                 </div>
             </div>
         </div>
@@ -87,9 +78,7 @@
                     <p id="weatherConfig_error" class="text-xl text-red-700 mb-3"></p>
                 </div>
                 <div class="flex justify-center">
-                    <button id="apply_weatherConfig_overlay" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">
-                        Apply
-                    </button>
+                    <button id="apply_weatherConfig_overlay" class="bg-white text-black px-6 py-2 text-lg rounded shadow hover:bg-ldark hover:text-white transition">Apply</button>
                 </div>
             </div>
         </div>
@@ -129,9 +118,9 @@
                 <div id="weather" class="hidden">
                     <div class="flex justify-between mt-2">
                         <h3 id="weather_temp" class="text-7xl 2xl:text-8xl"></h3>
-                        <img id="weather_icon" class="w-40 h-40 -mt-10 -mr-5">
+                        <img id="weather_icon" class="2xl:w-40 2xl:h-40 w-32 h-32 2xl:-mt-10 2xl:-mr-5 -mt-8 -mr-4">
                     </div>
-                    <div class="flex justify-between text-xl 2xl:text-2xl -mt-2">
+                    <div class="flex justify-between text-xl 2xl:text-2xl 2xl:-mt-2 -mt-3">
                         <h4 id="weather_minmax"></h4>
                         <h4 id="weather_humidity"></h4>
                     </div>
@@ -163,11 +152,36 @@
             </section>
         </div>
         <div class="col-start-3 flex flex-col justify-between">
-            <section class="h-75 container"></section>
-            <section id="todo" class="container max-h-[440px]">
+            <section class="max-h-96 container relative group">
+                <div class="h-full w-full scrollable overflow-y-auto">
+                    <a id="newsLink" href="<%= news_link %>" class="text-xl group-hover:underline">
+                        <h3 id="newsTitle" class="mb-2"><%= news_title %></h3>
+                    </a>
+                    <p id="newsDescription" class="text-lg"><%= news_description %></p>
+                </div>
+                
+
+
+
+                <div id="newsReload" alt="get another news" class="absolute right-2 top-2 w-9 h-9 cursor-pointer hidden group-hover:block hover:bg-ldark rounded-xl p-2">
+                    <svg id="newsSpinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hidden">
+                        <g stroke="currentColor" stroke-width="1">
+                            <circle cx="12" cy="12" r="9.5" fill="none" stroke-linecap="round" stroke-width="3">
+                                <animate attributeName="stroke-dasharray" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0 150;42 150;42 150;42 150" />
+                                <animate attributeName="stroke-dashoffset" calcMode="spline" dur="1.5s" keySplines="0.42,0,0.58,1;0.42,0,0.58,1;0.42,0,0.58,1" keyTimes="0;0.475;0.95;1" repeatCount="indefinite" values="0;-16;-59;-59" />
+                            </circle>
+                            <animateTransform attributeName="transform" dur="2s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12" />
+                        </g>
+                    </svg>
+                    <svg id="newsReloadImg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+                        <path fill="none" stroke="#fff" stroke-linecap="round" d="M10 4c-.8-1.1-2-2.5-4.1-2.5c-2.5 0-4.4 2-4.4 4.5s2 4.5 4.4 4.5c1.3 0 2.5-.6 3.3-1.5m1.3-7.5V4c0 .3-.2.5-.5.5H7.5" stroke-width="1.2" />
+                    </svg>
+                </div>
+            </section>
+            <section id="todo" class="container max-h-[450px]">
                 <h2>TODO</h2>
                 <input id="todo_add" type="text" placeholder="Add task">
-                <ul id="todo_list" class="scrollable overflow-y-auto text-xl min-h-[150px] max-h-[300px]">
+                <ul id="todo_list" class="scrollable overflow-y-auto text-xl min-h-[150px] max-h-[315px]">
                 </ul>
             </section>
         </div>
@@ -185,15 +199,15 @@
                     <img src="./img/chatgpt_logo.png" alt="" class="w-7 h-7 mr-3 opacity-75">
                 </section>
                 <section id="saved_pages">
-                    <div id="add_page"><img src="img/add_btn_white.png" alt="idkkk"></div>
+                    <div id="add_page"><img src="img/add_btn_white.png"></div>
                 </section>
             </div>
             
             <section class="h-auto min-h-40 min-w-60 text-center text-xl container relative group max-h-96">
                 <h2>Random joke</h2>
                 <div class="scrollable max-h-60 overflow-y-auto mb-1">
-                    <p id="jokeSetup" class="pb-2"><%= joke_setup %></p>
-                    <p id="jokePunch"><%= joke_punch %></p>
+                    <p id="jokeSetup" class="pb-2"></p>
+                    <p id="jokePunch"></p>
                 </div>
                 
                 <div id="jokeReload" alt="get another joke" class="absolute right-2 top-2 w-9 h-9 cursor-pointer hidden group-hover:block hover:bg-ldark rounded-xl p-2">
@@ -226,6 +240,7 @@
     <script src="./script/joke.js"></script>
     <script src="./script/weather.js"></script>
     <script src="./script/img_hint.js"></script>
+    <script src="./script/news.js"></script>
 
 
 </body>

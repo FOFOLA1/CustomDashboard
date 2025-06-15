@@ -5,11 +5,12 @@ const exit_FavPage_overlay = document.getElementById("exit_FavPage_overlay");
 const add_FavPage_name = document.getElementById("add_FavPage_name");
 const add_FavPage_url = document.getElementById("add_FavPage_url");
 const add_FavPage_create = document.getElementById("add_FavPage_create");
-const favPageRCMenu =  document.getElementById("favPageRCMenu");
+const favPageRCMenu = document.getElementById("favPageRCMenu");
 const favPageRCMenuItems = favPageRCMenu.querySelectorAll('li');
 const favPageRCMenuEdit = favPageRCMenuItems[0];
 const favPageRCMenuDelete = favPageRCMenuItems[1];
 let selectedFavPage = null;
+let isEdit = false;
 
 
 let page_list = JSON.parse(localStorage.getItem('favPages')) || [];
@@ -22,9 +23,13 @@ renderFavPages();
 
 
 
-add_page.addEventListener("click", () => showOverlay(add_FavPage_overlay));
+add_page.addEventListener("click", () => {
+    add_FavPage_create.innerHTML = "Create";
+    showOverlay(add_FavPage_overlay)
+});
 
 exit_FavPage_overlay.addEventListener("click", function(e) {
+    isEdit = false;
     hideOverlay();
     add_FavPage_name.value = "";
     add_FavPage_url.value = "";
@@ -65,34 +70,42 @@ function AddFavPageCreate() {
     .then(res => res.json())
     .then(data => {
         if (data.faviconUrl) {
-            let page = new FavPage(name, url, data.faviconUrl);
-            page_list.push(page);
-            newFavPage(page);
-            localStorage.setItem("favPages", JSON.stringify(page_list));
+            if (isEdit) {
+                let index = getSelectedIndex();
+                if (index != -1) {
+                    let page = new FavPage(name, url, data.faviconUrl);
+                    page_list[index] = page;
+                    renderFavPages();
+                    localStorage.setItem("favPages", JSON.stringify(page_list));
+                }
+            } else {
+                let page = new FavPage(name, url, data.faviconUrl);
+                page_list.push(page);
+                newFavPage(page);
+                localStorage.setItem("favPages", JSON.stringify(page_list));
+            }
         }
     });
 
     hideOverlay();
+    isEdit = false;
     add_FavPage_name.value = "";
     add_FavPage_url.value = "";
 }
 
 function FavPageEdit() {
-
+    add_FavPage_create.innerHTML = "Save";
+    isEdit = true;
+    showOverlay(add_FavPage_overlay);
+    add_FavPage_url.value = selectedFavPage.parentElement.href;
+    add_FavPage_name.value = selectedFavPage.alt;
 
 
     resetRCMenu();
 }
 
 function FavPageDelete() {
-    if (!selectedFavPage) return;
-
-    let aElement = selectedFavPage.closest("a");
-    if (!aElement) return;
-
-    let children = Array.from(saved_pages.children).slice(0, -1);
-    let index = children.indexOf(aElement);
-
+    let index = getSelectedIndex();
     if (index != -1) {
         saved_pages.removeChild(aElement);
         page_list.splice(index, 1);
@@ -101,6 +114,15 @@ function FavPageDelete() {
 
 
     resetRCMenu();
+}
+
+function getSelectedIndex() {
+    if (!selectedFavPage) return -1;
+
+    let aElement = selectedFavPage.closest("a");
+    if (!aElement) return -1;
+    
+    return Array.from(saved_pages.children).slice(0, -1).indexOf(aElement);
 }
 
 

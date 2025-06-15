@@ -5,6 +5,7 @@ const jokeReloadImg = document.getElementById("jokeReloadImg");
 const jokeSpinner = document.getElementById("jokeSpinner");
 
 jokeReload.addEventListener("click", joke_reload);
+joke_reload();
 
 function joke_reload() {
     jokeReloadImg.style.display = "none";

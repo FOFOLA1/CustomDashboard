@@ -43,7 +43,6 @@ function renderRCMenu(e, menu) {
 
 
 function resetRCMenu() {
-    customRCMenu.style.display = 'none';
     todoItemRCMenu.style.display = "none";
     favPageRCMenu.style.display = "none";
 }
