@@ -37,15 +37,3 @@ Vlastní homepage umožňující vyhledávat informace a ptát se umělé inteli
 ## On this day
 
 
-
-
-
-
-https://newsdata.io/api/1/news
-
-
-
-
-ZenQuotes – Daily Quote API https://zenquotes.io/api/today
-
-ZenQuotes – On This Day API https://today.zenquotes.io/api/[month]/[day]
