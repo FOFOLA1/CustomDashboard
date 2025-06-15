@@ -14,7 +14,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000; // Podmínka kvůli renderer hostingu
-const IP = (PORT == 3000) ? "127.0.0.1" : "0.0.0.0";
+const IP = (PORT == 3000) ? "127.0.0.1" : "0.0.0.0"; // Podmínka kvůli renderer hostingu
 
 const privateKey = readFileSync('server.key', 'utf8');
 const certificate = readFileSync('server.cert', 'utf8');
@@ -160,11 +160,17 @@ app.get("/api/getNews", async (req, res) => {
 	}
 });
 
+if (PORT == 3000) {
+	const httpsServer = https.createServer(credentials, app);
+	httpsServer.listen(PORT, IP, () => {
+		console.log(`HTTPS Server running on https://${IP}:${PORT}`);
+	});
+} else {
+	app.listen(PORT, IP, () => {
+		console.log(`HTTP Server running on http://${IP}:${PORT}`);
+	})
+}
 
-const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(PORT, IP, () => {
-    console.log(`HTTPS Server running on https://${IP}:${PORT}`);
-});
 
 function save() {
     writeFileSync('imgs.json', JSON.stringify(old_imgs));
