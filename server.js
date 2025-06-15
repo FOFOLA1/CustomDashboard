@@ -13,8 +13,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Podmínka kvůli renderer hostingu
-const IP = (PORT == 3000) ? "127.0.0.1" : "0.0.0.0"; // Podmínka kvůli renderer hostingu
+const PORT = process.env.PORT || 3000; // Podmínka kvůli render hostingu
+const IP = (PORT == 3000) ? "127.0.0.1" : "0.0.0.0"; // Podmínka kvůli render hostingu
 
 const privateKey = readFileSync('server.key', 'utf8');
 const certificate = readFileSync('server.cert', 'utf8');
@@ -160,6 +160,7 @@ app.get("/api/getNews", async (req, res) => {
 	}
 });
 
+// Podmínka kvůli render hostingu
 if (PORT == 3000) {
 	const httpsServer = https.createServer(credentials, app);
 	httpsServer.listen(PORT, IP, () => {
