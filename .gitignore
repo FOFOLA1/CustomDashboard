@@ -1,3 +1,4 @@
 .env
 server.key
 server.cert
+node_modules
