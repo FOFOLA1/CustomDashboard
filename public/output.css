@@ -225,9 +225,6 @@
   .inset-0 {
     inset: calc(var(--spacing) * 0);
   }
-  .top-0 {
-    top: calc(var(--spacing) * 0);
-  }
   .top-2 {
     top: calc(var(--spacing) * 2);
   }
@@ -273,9 +270,6 @@
   .col-end-3 {
     grid-column-end: 3;
   }
-  .row-span-2 {
-    grid-row: span 2 / span 2;
-  }
   .row-start-1 {
     grid-row-start: 1;
   }
@@ -306,9 +300,6 @@
   .m-0 {
     margin: calc(var(--spacing) * 0);
   }
-  .m-3 {
-    margin: calc(var(--spacing) * 3);
-  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -335,9 +326,6 @@
   }
   .mt-5 {
     margin-top: calc(var(--spacing) * 5);
-  }
-  .mt-10 {
-    margin-top: calc(var(--spacing) * 10);
   }
   .-mr-4 {
     margin-right: calc(var(--spacing) * -4);
@@ -492,9 +480,6 @@
   .cursor-pointer {
     cursor: pointer;
   }
-  .grid-cols-\[minmax\(300px\,3fr\)_minmax\(500px\,7fr\)_minmax\(300px\,3fr\)\] {
-    grid-template-columns: minmax(300px,3fr) minmax(500px,7fr) minmax(300px,3fr);
-  }
   .grid-rows-3 {
     grid-template-rows: repeat(3, minmax(0, 1fr));
   }
@@ -512,9 +497,6 @@
   }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
-  }
-  .gap-12 {
-    gap: calc(var(--spacing) * 12);
   }
   .self-center {
     align-self: center;
@@ -558,12 +540,6 @@
   .border-ldark {
     border-color: var(--color-ldark);
   }
-  .bg-amber-50 {
-    background-color: var(--color-amber-50);
-  }
-  .bg-blue-400 {
-    background-color: var(--color-blue-400);
-  }
   .bg-dark {
     background-color: var(--color-dark);
   }
@@ -576,20 +552,11 @@
   .bg-gray-200 {
     background-color: var(--color-gray-200);
   }
-  .bg-green-500 {
-    background-color: var(--color-green-500);
-  }
   .bg-transparent {
     background-color: transparent;
   }
-  .bg-violet-600 {
-    background-color: var(--color-violet-600);
-  }
   .bg-white {
     background-color: var(--color-white);
-  }
-  .bg-yellow-300 {
-    background-color: var(--color-yellow-300);
   }
   .bg-\[radial-gradient\(ellipse_at_center\,_rgba\(0\,0\,0\,0\)_40\%\,_rgba\(0\,0\,0\,0\.7\)_100\%\)\] {
     background-image: radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%);
@@ -614,12 +581,6 @@
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
-  }
-  .p-8 {
-    padding: calc(var(--spacing) * 8);
-  }
-  .p-10 {
-    padding: calc(var(--spacing) * 10);
   }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
@@ -660,10 +621,6 @@
   .text-8xl {
     font-size: var(--text-8xl);
     line-height: var(--tw-leading, var(--text-8xl--line-height));
-  }
-  .text-9xl {
-    font-size: var(--text-9xl);
-    line-height: var(--tw-leading, var(--text-9xl--line-height));
   }
   .text-lg {
     font-size: var(--text-lg);
